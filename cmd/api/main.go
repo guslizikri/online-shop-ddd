@@ -3,8 +3,11 @@ package main
 import (
 	"fmt"
 	"log"
+	"online-shop-ddd/apps/users"
 	"online-shop-ddd/external/database"
 	"online-shop-ddd/internal/config"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
@@ -22,4 +25,11 @@ func main() {
 	if db != nil {
 		fmt.Println("DB Connected")
 	}
+
+	router := fiber.New(fiber.Config{
+		Prefork: true,
+		AppName: config.Cfg.App.Name,
+	})
+	users.Init(router, db)
+	router.Listen(config.Cfg.App.Port)
 }
