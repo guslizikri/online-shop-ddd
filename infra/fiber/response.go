@@ -11,6 +11,7 @@ type Response struct {
 	Success   bool        `json:"success"`
 	Message   string      `json:"message"`
 	Payload   interface{} `json:"payload,omitempty"`
+	Query     interface{} `json:"query,omitempty"`
 	Error     string      `json:"error,omitempty"`
 	ErrorCode string      `json:"error_code,omitempty"`
 }
@@ -41,6 +42,12 @@ func WithMessage(message string) func(r *Response) *Response {
 func WithPayload(payload interface{}) func(r *Response) *Response {
 	return func(r *Response) *Response {
 		r.Payload = payload
+		return r
+	}
+}
+func WithQuery(query interface{}) func(r *Response) *Response {
+	return func(r *Response) *Response {
+		r.Query = query
 		return r
 	}
 }

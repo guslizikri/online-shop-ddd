@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"online-shop-ddd/apps/products"
 	"online-shop-ddd/apps/users"
 	"online-shop-ddd/external/database"
 	"online-shop-ddd/internal/config"
@@ -31,5 +32,6 @@ func main() {
 		AppName: config.Cfg.App.Name,
 	})
 	users.Init(router, db)
+	products.Init(router, db)
 	router.Listen(config.Cfg.App.Port)
 }

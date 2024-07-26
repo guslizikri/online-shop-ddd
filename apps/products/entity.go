@@ -17,7 +17,20 @@ type Product struct {
 	UpdatedAt time.Time `db:"updated_at"`
 }
 
-func NewProductFromReqCreateProduct(req ReqCreateProduct) Product {
+type ProductPagination struct {
+	Cursor int `json:"cursor"`
+	Size   int `json:"size"`
+}
+
+func NewProductPaginationFromListProductRequest(req ListProductRequestPayload) ProductPagination {
+	req = req.GenerateDefaultValue()
+	return ProductPagination{
+		Cursor: req.Cursor,
+		Size:   req.Size,
+	}
+}
+
+func NewProductFromCreateProductRequest(req CreateProductRequestPayload) Product {
 	return Product{
 		SKU:       uuid.NewString(),
 		Name:      req.Name,
