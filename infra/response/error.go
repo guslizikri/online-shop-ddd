@@ -7,19 +7,26 @@ import (
 
 // Error General
 var (
-	ErrNotFound = errors.New("data not found")
+	ErrNotFound     = errors.New("data not found")
+	ErrUnauthorized = errors.New("unauthorized")
 )
 var (
+	// auth
 	ErrEmailRequired         = errors.New("email is required")
 	ErrEmailInvalid          = errors.New("email is invalid")
 	ErrPasswordRequired      = errors.New("email is required")
 	ErrPasswordInvalidLength = errors.New("password must have minimun 6 character")
 	ErrEmailExist            = errors.New("email already exists")
 	ErrPasswordNotMatch      = errors.New("password not match")
-	ErrProductRequired       = errors.New("product is required")
-	ErrProductInvalid        = errors.New("product name must have minimum 4 character")
-	ErrPriceInvalid          = errors.New("price must be greater than 0")
-	ErrStockInvalid          = errors.New("stock must be greater than 0")
+
+	// Product
+	ErrProductRequired = errors.New("product is required")
+	ErrProductInvalid  = errors.New("product name must have minimum 4 character")
+	ErrPriceInvalid    = errors.New("price must be greater than 0")
+	ErrStockInvalid    = errors.New("stock must be greater than 0")
+	// transactions
+	ErrAmountInvalid          = errors.New("invalid amount")
+	ErrAmountGreaterThanStock = errors.New("amount greater than stock")
 )
 
 type Error struct {
@@ -40,9 +47,10 @@ func (e Error) Error() string {
 }
 
 var (
-	ErrorGeneral    = NewError("general error", "99999", http.StatusInternalServerError)
-	ErrorBadRequest = NewError("bad request", "40000", http.StatusBadRequest)
-	ErrorNotFound   = NewError(ErrNotFound.Error(), "40400", http.StatusNotFound)
+	ErrorGeneral      = NewError("general error", "99999", http.StatusInternalServerError)
+	ErrorBadRequest   = NewError("bad request", "40000", http.StatusBadRequest)
+	ErrorNotFound     = NewError(ErrNotFound.Error(), "40400", http.StatusNotFound)
+	ErrorUnauthorized = NewError(ErrUnauthorized.Error(), "40100", http.StatusUnauthorized)
 )
 
 var (
@@ -55,6 +63,7 @@ var (
 	ErrorProductInvalid        = NewError(ErrProductInvalid.Error(), "40006", http.StatusBadRequest)
 	ErrorStockInvalid          = NewError(ErrStockInvalid.Error(), "40007", http.StatusBadRequest)
 	ErrorPriceInvalid          = NewError(ErrPriceInvalid.Error(), "40008", http.StatusBadRequest)
+	ErrorInvalidAmount         = NewError(ErrAmountInvalid.Error(), "40009", http.StatusBadRequest)
 
 	ErrorEmailExist       = NewError(ErrEmailExist.Error(), "40901", http.StatusConflict)
 	ErrorPasswordNotMatch = NewError(ErrPasswordNotMatch.Error(), "40101", http.StatusUnauthorized)
@@ -69,5 +78,6 @@ var (
 		ErrPasswordInvalidLength.Error(): ErrorPasswordInvalidLength,
 		ErrEmailExist.Error():            ErrorEmailExist,
 		ErrPasswordNotMatch.Error():      ErrorPasswordNotMatch,
+		ErrUnauthorized.Error():          ErrorUnauthorized,
 	}
 )
